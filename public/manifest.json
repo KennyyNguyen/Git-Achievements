@@ -6,7 +6,7 @@
   "homepage_url": "https://github.com/zanozbot/uuid-generator",
   "browser_action": {
     "default_title": "Git Achievements",
-    "default_popup": "index.html",
+    "default_popup": "index.html"
   },
   "icons": {
     "16": "img/icon-16.png",
