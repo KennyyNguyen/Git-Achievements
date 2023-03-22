@@ -1,5 +1,5 @@
-import react from "react";
+import React from "react";
 
 export default function Popup() {
-  return <h1>Hallo</h1>;
+  return <h1>Hallos</h1>;
 }
