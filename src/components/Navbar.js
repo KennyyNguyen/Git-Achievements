@@ -1,5 +1,12 @@
 import React from "react";
 import { UnderlineNav } from "@primer/react/drafts";
+import {
+  CodeIcon,
+  IssueOpenedIcon,
+  GitPullRequestIcon,
+  CommentDiscussionIcon,
+  EyeIcon,
+} from "@primer/octicons-react";
 
 export default function Navbar() {
   return (
