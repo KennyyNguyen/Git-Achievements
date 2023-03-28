@@ -1,19 +1,22 @@
 import React from "react";
-import { Box, Container, Divider, Flex } from "@chakra-ui/react";
+import { Box, Container, Divider, Flex, Tabs } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import ProfileDisplay from "./ProfileDisplay";
+import Achievements from "./Achievements";
 
 export default function Popup() {
   return (
     <>
-      <Container bg="red.200">
-        <Flex bg="purple.100">
+      <Container>
+        <Flex height="100px">
           <ProfileDisplay />
           <Divider orientation="vertical" />
-          <Box bg="blue">
-            Box2
-            <Divider orientation="horizontal" />
-            <Navbar />
+          <Box>
+            <Tabs>
+              <Achievements />
+              <Divider orientation="horizontal" />
+              <Navbar />
+            </Tabs>
           </Box>
         </Flex>
       </Container>
