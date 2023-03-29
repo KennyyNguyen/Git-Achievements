@@ -12,7 +12,7 @@ export default function Popup() {
           <ProfileDisplay />
           <Divider orientation="vertical" />
           <Box>
-            <Tabs>
+            <Tabs isFitted variant="unstyled">
               <Achievements />
               <Divider orientation="horizontal" />
               <Navbar />
