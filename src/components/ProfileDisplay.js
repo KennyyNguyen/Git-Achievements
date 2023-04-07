@@ -1,19 +1,18 @@
-import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
+import UserAvatar from "./UserAvatar";
 
 export default function ProfileDisplay() {
   return (
     <Flex
       direction="column"
+      width="100%"
       justify="space-around"
-      bg="blue"
-      w="100%"
-      color="white"
+      alignItems="center"
     >
-      <Box bg="tomato" w="100%" color="white">
-        Avatar
-      </Box>
-      <Box bg="red" w="100%" color="white">
+      <Heading>Ola Nordmann</Heading>
+      <UserAvatar />
+      <Box bg="red" color="white">
         Recent Achievements
       </Box>
     </Flex>
