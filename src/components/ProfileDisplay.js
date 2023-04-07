@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import UserAvatar from "./UserAvatar";
+import UserName from ".UserName";
 
 export default function ProfileDisplay() {
   return (
@@ -10,7 +11,7 @@ export default function ProfileDisplay() {
       justify="space-around"
       alignItems="center"
     >
-      <Heading>Ola Nordmann</Heading>
+      <UserName />
       <UserAvatar />
       <Box bg="red" color="white">
         Recent Achievements
