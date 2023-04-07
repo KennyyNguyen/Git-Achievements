@@ -1,5 +1,6 @@
 import React from "react";
 import { TabPanels, TabPanel } from "@chakra-ui/react";
+import Profile from "./Profile";
 
 export default function Achievements() {
   return (
@@ -8,7 +9,7 @@ export default function Achievements() {
         <p>Achievements!</p>
       </TabPanel>
       <TabPanel>
-        <p>Profile!</p>
+        <Profile />
       </TabPanel>
     </TabPanels>
   );
