@@ -8,7 +8,7 @@ export default function Popup() {
   return (
     <>
       <Container>
-        <Flex height="100px">
+        <Flex height={500}>
           <ProfileDisplay />
           <Divider orientation="vertical" />
           <Box>

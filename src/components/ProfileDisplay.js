@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import UserAvatar from "./UserAvatar";
-import UserName from ".UserName";
+import UserName from "./UserName";
 
 export default function ProfileDisplay() {
   return (
