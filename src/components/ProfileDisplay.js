@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Center, Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import UserAvatar from "./UserAvatar";
 import UserName from "./UserName";
 
