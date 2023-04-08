@@ -5,12 +5,7 @@ import UserName from "./UserName";
 
 export default function ProfileDisplay() {
   return (
-    <Flex
-      direction="column"
-      width="100%"
-      justify="space-around"
-      alignItems="center"
-    >
+    <Flex direction="column" alignItems="center" justify="space-around">
       <UserName />
       <UserAvatar />
       <Flex alignItems="center" flexDirection="column">
