@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Divider, Flex, Tabs } from "@chakra-ui/react";
+import { Box, Container, Divider, Flex, Tabs } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import ProfileDisplay from "./ProfileDisplay";
 import MainDisplay from "./MainDisplay";
@@ -8,16 +8,26 @@ export default function Popup() {
   return (
     <>
       <Container>
-        <Flex>
-          <Flex w="sm" h="sm" justify="space-between">
+        <Flex bg="tomato" w="max" h="max">
+          <Flex justify="space-between">
             <ProfileDisplay />
             <Divider orientation="vertical" />
           </Flex>
-          <Flex w="sm" h="sm">
-            <Tabs isFitted variant="line">
+          <Flex>
+            <Tabs
+              w="sm"
+              h="sm"
+              isFitted
+              variant="line"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+            >
               <MainDisplay />
-              <Divider orientation="horizontal" />
-              <Navbar />
+              <Box>
+                <Divider orientation="horizontal" />
+                <Navbar />
+              </Box>
             </Tabs>
           </Flex>
         </Flex>

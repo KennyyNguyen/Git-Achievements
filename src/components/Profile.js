@@ -31,8 +31,8 @@ export default function Profile() {
             placeholder="Your GitLab token"
             type={show ? "text" : "password"}
           />
-          <InputRightElement>
-            <Button h="1.75rem" onClick={handleClick}>
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>

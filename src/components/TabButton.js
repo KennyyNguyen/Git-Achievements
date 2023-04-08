@@ -9,9 +9,7 @@ export default function TabButton(props) {
 
   return (
     <Tab __css={styles.tab} {...tabProps}>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        {isSelected ? props.iconFill : props.iconLine}
-      </Box>
+      <Box fontSize="2xl">{isSelected ? props.iconFill : props.iconLine}</Box>
     </Tab>
   );
 }
