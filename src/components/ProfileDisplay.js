@@ -8,10 +8,8 @@ export default function ProfileDisplay() {
     <Flex direction="column" alignItems="center" justify="space-around">
       <UserName />
       <UserAvatar />
-      <Flex alignItems="center" flexDirection="column">
-        <Heading size="md">Recent achievements</Heading>
-        Display of atleast three achievements
-      </Flex>
+      <Heading size="md">Recent achievements</Heading>
+      <Flex alignItems="center">Display of atleast three achievements!</Flex>
     </Flex>
   );
 }

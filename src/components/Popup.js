@@ -13,8 +13,8 @@ export default function Popup() {
             <ProfileDisplay />
             <Divider orientation="vertical" />
           </Flex>
-          <Flex>
-            <Tabs variant="unstyled">
+          <Flex w="sm" h="sm">
+            <Tabs isFitted variant="line">
               <MainDisplay />
               <Divider orientation="horizontal" />
               <Navbar />

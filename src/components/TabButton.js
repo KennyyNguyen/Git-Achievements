@@ -1,4 +1,4 @@
-import { Box, Button, useMultiStyleConfig, useTab } from "@chakra-ui/react";
+import { Box, Tab, useMultiStyleConfig, useTab } from "@chakra-ui/react";
 import React from "react";
 
 export default function TabButton(props) {
@@ -8,10 +8,10 @@ export default function TabButton(props) {
   const styles = useMultiStyleConfig("Tabs", tabProps);
 
   return (
-    <Button __css={styles.tab} {...tabProps}>
-      <Box as="span" display="flex" justifyContent="center" alignItems="center">
+    <Tab __css={styles.tab} {...tabProps}>
+      <Box display="flex" justifyContent="center" alignItems="center">
         {isSelected ? props.iconFill : props.iconLine}
       </Box>
-    </Button>
+    </Tab>
   );
 }
