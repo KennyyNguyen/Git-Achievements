@@ -28,7 +28,7 @@ export default function Profile() {
             children={<Icon as={RiKey2Fill} color="gray.400" />}
           />
           <Input
-            placeholde="Your GitLab token"
+            placeholder="Your GitLab token"
             type={show ? "text" : "password"}
           />
           <InputRightElement>
