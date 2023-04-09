@@ -4,17 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ApiProvider } from "@reduxjs/toolkit/query/react";
-import { apiSlice } from "./api/apiSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ApiProvider api={apiSlice}>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </ApiProvider>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </React.StrictMode>
 );
 
