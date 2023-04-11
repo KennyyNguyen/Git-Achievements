@@ -8,7 +8,7 @@ export default function Popup() {
   return (
     <>
       <Container>
-        <Flex bg="tomato" w="max" h="max">
+        <Flex w="max" h="max">
           <Flex justify="space-between">
             <ProfileDisplay />
             <Divider orientation="vertical" />

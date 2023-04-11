@@ -12,16 +12,44 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { RiKey2Fill, RiGitlabFill } from "react-icons/ri";
+import { api } from "../api/initGitlabApi";
 
 export default function Profile() {
   const [show, setShow] = useState("");
-  const handleClick = () => setShow(!show);
+  const [token, setToken] = useState("");
+  const [host, setHost] = useState("");
+  const [connectionStatus, setConnectionStatus] = useState("");
+
+  const handleShowPassword = () => setShow(!show);
+
+  const handleTokenChange = (event) => setToken(event.target.value);
+
+  const handleHostChange = (event) => setHost(event.target.value);
+
+  const handleTestConnection = async () => {
+    try {
+      if (!token || !host) {
+        throw new Error(
+          "Please provide a personal access token and host address"
+        );
+      }
+      const testApi = api(host, token);
+      const testFetch = await testApi.Users.current();
+      console.log(testFetch.avatar_url);
+      if (testFetch.avatar_url === undefined) {
+        setConnectionStatus("Connection FAILED");
+        alert(connectionStatus);
+      }
+    } catch (error) {
+      setConnectionStatus("Connection error: " + error.message);
+    }
+  };
 
   return (
     <Flex direction="column">
       <Heading>Profile</Heading>
-      <FormControl>
-        <FormLabel>Personal GitLab Token</FormLabel>
+      <FormControl isRequired>
+        <FormLabel>GitLab Personal Access Token</FormLabel>
         <InputGroup>
           <InputLeftElement
             pointerEvents="none"
@@ -30,9 +58,10 @@ export default function Profile() {
           <Input
             placeholder="Your GitLab token"
             type={show ? "text" : "password"}
+            onChange={handleTokenChange}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button h="1.75rem" size="sm" onClick={handleShowPassword}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -43,9 +72,14 @@ export default function Profile() {
             pointerEvents="none"
             children={<Icon as={RiGitlabFill} color="gray.400" />}
           />
-          <Input placeholder="Ex: https://gitlab.stud.idi.ntnu.no/api/v4/" />
+          <Input
+            placeholder="Ex: https://gitlab.stud.idi.ntnu.no/api/v4/"
+            onChange={handleHostChange}
+          />
         </InputGroup>
       </FormControl>
+      <Button onClick={handleTestConnection}>Test connection</Button>
+      <p>{connectionStatus}</p>
     </Flex>
   );
 }
