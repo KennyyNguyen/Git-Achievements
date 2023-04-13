@@ -18,7 +18,7 @@ import updateSetting from "../common/settings";
 export default function Profile() {
   const [show, setShow] = useState("");
   const [gitLabToken, setGitLabToken] = useState("");
-  const [host, setHost] = useState("");
+  const [gitLabAddress, setGitLabAddress] = useState("");
   const [connectionStatus, setConnectionStatus] = useState("");
 
   const handleShowPassword = () => setShow(!show);
@@ -28,16 +28,19 @@ export default function Profile() {
     await updateSetting({ gitLabToken: event.target.value });
   };
 
-  const handleHostChange = (event) => setHost(event.target.value);
+  const handleGitLabAddressChange = async (event) => {
+    setGitLabAddress(event.target.valye);
+    await updateSetting({ gitLabAddress: event.target.value });
+  };
 
   const handleTestConnection = async () => {
     try {
-      if (!gitLabToken || !host) {
+      if (!gitLabToken || !gitLabAddress) {
         throw new Error(
           "Please provide a personal access token and host address"
         );
       }
-      const testApi = api(host, gitLabToken);
+      const testApi = api(gitLabAddress, gitLabToken);
       const testFetch = await testApi.Users.current();
       console.log(testFetch.avatar_url);
       if (testFetch.avatar_url === undefined) {
@@ -60,6 +63,7 @@ export default function Profile() {
             children={<Icon as={RiKey2Fill} color="gray.400" />}
           />
           <Input
+            value={gitLabToken}
             placeholder="Your GitLab token"
             type={show ? "text" : "password"}
             onChange={handleGitLabTokenChange}
@@ -77,8 +81,9 @@ export default function Profile() {
             children={<Icon as={RiGitlabFill} color="gray.400" />}
           />
           <Input
+            value={gitLabAddress}
             placeholder="Ex: https://gitlab.stud.idi.ntnu.no/api/v4/"
-            onChange={handleHostChange}
+            onChange={handleGitLabAddressChange}
           />
         </InputGroup>
       </FormControl>
