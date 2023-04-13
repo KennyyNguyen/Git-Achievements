@@ -13,27 +13,31 @@ import {
 } from "@chakra-ui/react";
 import { RiKey2Fill, RiGitlabFill } from "react-icons/ri";
 import { api } from "../api/initGitlabApi";
+import updateSetting from "../common/settings";
 
 export default function Profile() {
   const [show, setShow] = useState("");
-  const [token, setToken] = useState("");
+  const [gitLabToken, setGitLabToken] = useState("");
   const [host, setHost] = useState("");
   const [connectionStatus, setConnectionStatus] = useState("");
 
   const handleShowPassword = () => setShow(!show);
 
-  const handleTokenChange = (event) => setToken(event.target.value);
+  const handleGitLabTokenChange = async (event) => {
+    setGitLabToken(event.target.value);
+    await updateSetting({ gitLabToken: event.target.value });
+  };
 
   const handleHostChange = (event) => setHost(event.target.value);
 
   const handleTestConnection = async () => {
     try {
-      if (!token || !host) {
+      if (!gitLabToken || !host) {
         throw new Error(
           "Please provide a personal access token and host address"
         );
       }
-      const testApi = api(host, token);
+      const testApi = api(host, gitLabToken);
       const testFetch = await testApi.Users.current();
       console.log(testFetch.avatar_url);
       if (testFetch.avatar_url === undefined) {
@@ -58,7 +62,7 @@ export default function Profile() {
           <Input
             placeholder="Your GitLab token"
             type={show ? "text" : "password"}
-            onChange={handleTokenChange}
+            onChange={handleGitLabTokenChange}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleShowPassword}>
