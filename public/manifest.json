@@ -1,9 +1,9 @@
 {
   "name": "Git Achievements",
-  "description": "Rewards the user with achievements upon completions of predefined challenges.",
+  "description": "Rewards the user with achievements upon completions of challenges.",
   "version": "1.0.0",
   "manifest_version": 2,
-  "homepage_url": "https://github.com/zanozbot/uuid-generator",
+  "homepage_url": "https://github.com/KennyyNguyen/Git-Achievements",
   "browser_action": {
     "default_title": "Git Achievements",
     "default_popup": "index.html"
