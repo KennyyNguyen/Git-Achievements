@@ -13,6 +13,9 @@
     "default_title": "Git Achievements",
     "default_popup": "index.html"
   },
+  "background": {
+    "scripts": ["src/background/index.js"]
+  },
   "permissions": [
     "storage"
   ]

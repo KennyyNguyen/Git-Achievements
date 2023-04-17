@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Avatar } from "@chakra-ui/react";
-import { api } from "../api/initGitlabApi";
+import { api } from "../common/initGitlabApi";
 
 export default function UserName() {
   const [isLoading, setIsLoading] = useState(true);
