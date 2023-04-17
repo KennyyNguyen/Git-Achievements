@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import * as browser from "webextension-polyfill";
 import {
   Button,
   Flex,
@@ -12,14 +13,17 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { RiKey2Fill, RiGitlabFill } from "react-icons/ri";
-import { api } from "../api/initGitlabApi";
-import updateSetting from "../common/settings";
+//import { api } from "../common/initGitlabApi";
+import { updateSetting } from "../common/updateSetting";
+import TestAlert from "./TestAlert";
 
 export default function Profile() {
   const [show, setShow] = useState("");
   const [gitLabToken, setGitLabToken] = useState("");
   const [gitLabAddress, setGitLabAddress] = useState("");
   const [connectionStatus, setConnectionStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [testResults, setTestResults] = useState(null);
 
   const handleShowPassword = () => setShow(!show);
 
@@ -29,28 +33,42 @@ export default function Profile() {
   };
 
   const handleGitLabAddressChange = async (event) => {
-    setGitLabAddress(event.target.valye);
+    setGitLabAddress(event.target.value);
     await updateSetting({ gitLabAddress: event.target.value });
   };
 
-  const handleTestConnection = async () => {
-    try {
-      if (!gitLabToken || !gitLabAddress) {
-        throw new Error(
-          "Please provide a personal access token and host address"
-        );
-      }
-      const testApi = api(gitLabAddress, gitLabToken);
-      const testFetch = await testApi.Users.current();
-      console.log(testFetch.avatar_url);
-      if (testFetch.avatar_url === undefined) {
-        setConnectionStatus("Connection FAILED");
-        alert(connectionStatus);
-      }
-    } catch (error) {
-      setConnectionStatus("Connection error: " + error.message);
-    }
-  };
+  const handleTestConnection = useCallback(() => {
+    setIsLoading(true);
+    browser.runtime
+      .sendMessage({ type: "ping" })
+      .then((result) => {
+        setTestResults(result);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
+  }, []);
+
+  // const handleTestConnection = async () => {
+  //   try {
+  //     if (!gitLabToken || !gitLabAddress) {
+  //       throw new Error(
+  //         "Please provide a personal access token and host address"
+  //       );
+  //     }
+  //     const testApi = api(gitLabAddress, gitLabToken);
+  //     const testFetch = await testApi.Users.current();
+  //     console.log(testFetch.avatar_url);
+  //     if (testFetch.avatar_url === undefined) {
+  //       setConnectionStatus("Connection FAILED");
+  //       alert(connectionStatus);
+  //     }
+  //   } catch (error) {
+  //     setConnectionStatus("Connection error: " + error.message);
+  //   }
+  // };
 
   return (
     <Flex direction="column">
@@ -87,8 +105,14 @@ export default function Profile() {
           />
         </InputGroup>
       </FormControl>
-      <Button onClick={handleTestConnection}>Test connection</Button>
-      <p>{connectionStatus}</p>
+      <Button
+        isLoading={isLoading}
+        loadingText="Testing"
+        onClick={handleTestConnection}
+      >
+        Test connection
+      </Button>
+      <>{testResults && <TestAlert message={testResults} />}</>
     </Flex>
   );
 }
