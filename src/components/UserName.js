@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Spinner } from "@chakra-ui/react";
 import { getSettings } from "../common/getSettings";
 import { initGitlabApi } from "../common/initGitlabApi";
 
 export default function UserName() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [name, setName] = useState("");
+  const [status, setStatus] = useState({
+    isLoading: true,
+    error: null,
+    name: "",
+  });
 
   useEffect(() => {
     async function fetchUserName() {
@@ -14,24 +16,19 @@ export default function UserName() {
         const settings = await getSettings();
         const gitlabApi = initGitlabApi(settings);
         const userData = await gitlabApi.Users.current();
-        setName(userData.name);
+        setStatus({ isLoading: false, error: null, name: userData.name });
       } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
+        setStatus({ isLoading: false, error: error.message, name: "" });
       }
     }
     fetchUserName();
   }, []);
 
-  let content;
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  } else if (name) {
-    content = <Heading>{name}</Heading>;
-  } else if (error) {
-    content = <p>{error}</p>;
+  if (status.isLoading) {
+    return <Spinner />;
   }
-
-  return content;
+  if (status.error) {
+    return <p>{status.error}</p>;
+  }
+  return <Heading>{status.name}</Heading>;
 }

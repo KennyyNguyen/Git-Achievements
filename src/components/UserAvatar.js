@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, Spinner } from "@chakra-ui/react";
 import { getSettings } from "../common/getSettings";
 import { initGitlabApi } from "../common/initGitlabApi";
 
 export default function UserAvatar() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [avatar, setAvatar] = useState("");
+  const [status, setStatus] = useState({
+    isLoading: true,
+    error: null,
+    avatar: "",
+  });
 
   useEffect(() => {
     async function fetchUserAvatar() {
@@ -14,26 +16,25 @@ export default function UserAvatar() {
         const settings = await getSettings();
         const gitlabApi = initGitlabApi(settings);
         const userData = await gitlabApi.Users.current();
-        setAvatar(userData.avatar_url);
+        setStatus({
+          isLoading: false,
+          error: null,
+          avatar: userData.avatar_url,
+        });
       } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
+        setStatus({ isLoading: false, error: error.message, name: "" });
       }
     }
     fetchUserAvatar();
   }, []);
 
-  let content;
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  } else if (avatar) {
-    content = (
-      <Avatar size="xl" name="User Avatar" bg="gray.500" src={avatar} />
-    );
-  } else if (error) {
-    content = <p>{error}</p>;
+  if (status.isLoading) {
+    return <Spinner />;
   }
-
-  return content;
+  if (status.error) {
+    return <p>{status.error}</p>;
+  }
+  return (
+    <Avatar size="xl" name="User Avatar" bg="gray.500" src={status.avatar} />
+  );
 }
