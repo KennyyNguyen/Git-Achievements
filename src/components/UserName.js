@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Heading } from "@chakra-ui/react";
-import { api } from "../common/initGitlabApi";
+import { getSettings } from "../common/getSettings";
+import { initGitlabApi } from "../common/initGitlabApi";
 
 export default function UserName() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +11,9 @@ export default function UserName() {
   useEffect(() => {
     async function fetchUserName() {
       try {
-        const userData = await api.Users.current();
+        const settings = await getSettings();
+        const gitlabApi = initGitlabApi(settings);
+        const userData = await gitlabApi.Users.current();
         setName(userData.name);
       } catch (error) {
         setError(error.message);

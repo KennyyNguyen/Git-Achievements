@@ -1,7 +1,13 @@
 import { Gitlab } from "@gitbeaker/browser";
 
-export const api = (host, token) =>
-  new Gitlab({
-    host: host,
-    token: token,
+export const initGitlabApi = (settings) => {
+  if (!settings) {
+    console.log("COULD NOT FETCH SETTING");
+  }
+
+  return new Gitlab({
+    host: settings.address,
+    token: settings.token,
+    requestTimeout: 10000,
   });
+};

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Avatar } from "@chakra-ui/react";
-import { api } from "../common/initGitlabApi";
+import { getSettings } from "../common/getSettings";
+import { initGitlabApi } from "../common/initGitlabApi";
 
-export default function UserName() {
+export default function UserAvatar() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [avatar, setAvatar] = useState("");
@@ -10,7 +11,9 @@ export default function UserName() {
   useEffect(() => {
     async function fetchUserAvatar() {
       try {
-        const userData = await api.Users.current();
+        const settings = await getSettings();
+        const gitlabApi = initGitlabApi(settings);
+        const userData = await gitlabApi.Users.current();
         setAvatar(userData.avatar_url);
       } catch (error) {
         setError(error.message);
