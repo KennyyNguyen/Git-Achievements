@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import * as browser from "webextension-polyfill";
 import {
   Button,
@@ -16,6 +16,7 @@ import { RiKey2Fill, RiGitlabFill } from "react-icons/ri";
 //import { api } from "../common/initGitlabApi";
 import { updateSetting } from "../common/updateSetting";
 import TestAlert from "./TestAlert";
+import { getSettings } from "../common/getSettings";
 
 export default function Profile() {
   const [show, setShow] = useState("");
@@ -24,6 +25,13 @@ export default function Profile() {
   const [connectionStatus, setConnectionStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [testResults, setTestResults] = useState(null);
+
+  useEffect(() => {
+    getSettings().then((settings) => {
+      setGitLabToken(settings.token);
+      setGitLabAddress(settings.address);
+    });
+  }, []);
 
   const handleShowPassword = () => setShow(!show);
 
@@ -40,7 +48,7 @@ export default function Profile() {
   const handleTestConnection = useCallback(() => {
     setIsLoading(true);
     browser.runtime
-      .sendMessage({ type: "ping" })
+      .sendMessage({ type: "getLatestDataFromGitLab" })
       .then((result) => {
         setTestResults(result);
         setIsLoading(false);
