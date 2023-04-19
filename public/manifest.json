@@ -5,16 +5,16 @@
   "manifest_version": 2,
   "homepage_url": "https://github.com/KennyyNguyen/Git-Achievements",
   "icons": {
-    "16": "img/icon-16.png",
     "48": "img/icon-48.png",
+    "96": "img/icon-96.png",
     "128": "img/icon-128.png"
   },
   "browser_action": {
     "default_title": "Git Achievements",
-    "default_popup": "index.html"
+    "default_popup": "./index.html"
   },
   "background": {
-    "scripts": ["src/background/index.js"]
+    "scripts": ["../src/background/index.js"]
   },
   "permissions": [
     "storage"
