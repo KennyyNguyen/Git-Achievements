@@ -11,8 +11,8 @@ import TabButton from "./TabButton";
 export default function Navbar() {
   return (
     <TabList>
-      <TabButton iconFill={<RiMedalFill />} iconLine={<RiMedalLine />} />
-      <TabButton iconFill={<RiUser3Fill />} iconLine={<RiUser3Line />} />
+      <TabButton iconfill={<RiMedalFill />} iconline={<RiMedalLine />} />
+      <TabButton iconfill={<RiUser3Fill />} iconline={<RiUser3Line />} />
     </TabList>
   );
 }
