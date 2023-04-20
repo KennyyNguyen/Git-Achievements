@@ -10,7 +10,7 @@ console.log("background script loaded");
 // };
 
 browser.runtime.onMessage.addListener((message) => {
-  if (message.type === "getLatestDataFromGitLab") {
+  if (message.type === "ping") {
     return Promise.resolve("pong");
   }
 });

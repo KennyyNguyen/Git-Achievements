@@ -48,7 +48,7 @@ export default function Profile() {
   const handleTestConnection = useCallback(() => {
     setIsLoading(true);
     browser.runtime
-      .sendMessage({ type: "getLatestDataFromGitLab" })
+      .sendMessage({ type: "ping" })
       .then((result) => {
         setTestResults(result);
         setIsLoading(false);

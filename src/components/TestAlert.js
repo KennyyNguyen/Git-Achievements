@@ -12,7 +12,7 @@ export default function TestAlert(props) {
       textAlign="center"
     >
       <AlertIcon boxSize="30px" mr={0} />
-      <AlertTitle fontSize="md">props.message</AlertTitle>
+      <AlertTitle fontSize="md">{props.message}</AlertTitle>
     </Alert>
   );
 }
