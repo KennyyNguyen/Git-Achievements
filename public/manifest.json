@@ -11,10 +11,10 @@
   },
   "browser_action": {
     "default_title": "Git Achievements",
-    "default_popup": "./index.html"
+    "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["../src/background/index.js"]
+    "scripts": ["background.js"]
   },
   "permissions": [
     "storage"

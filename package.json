@@ -22,11 +22,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack --config webpack.config.js",
+    "dev": "webpack --watch --config webpack.dev.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start:firefox": "web-ext-react run | xargs -L1 web-ext run -u http://www.example.org/ -s",
-    "start:chrome": "web-ext-react run | xargs -L1 web-ext run -u http://www.example.org/ -t chromium -s"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -47,7 +46,14 @@
     ]
   },
   "devDependencies": {
-    "web-ext": "^7.6.1",
-    "web-ext-react": "^1.1.2"
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.1"
   }
 }
