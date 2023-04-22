@@ -9,11 +9,12 @@ export const getLatestDataFromGitLab = async () => {
   const gitLabApi = initGitlabApi(settings);
   const currentUser = await gitLabApi.Users.current();
 
-  const userData = {
-    currentUser: currentUser,
-  };
+  const userMailRequest = currentUser.email;
+  const userIdRequest = currentUser.id;
 
-  await browser.storage.local.set({ userData });
+  const [mail, id] = await Promise.all([userMailRequest, userIdRequest]);
 
-  return console.log("API fetched successfully!" + { userData });
+  await browser.storage.local.set({ mail, id });
+
+  return console.log("API Fetched successfully!");
 };

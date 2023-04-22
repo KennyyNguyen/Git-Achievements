@@ -1,18 +1,15 @@
 import React from "react";
-import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/react";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
 export default function TestAlert(props) {
+  const alertMessage = props.message
+    ? "Connection successful!"
+    : "Connection failed.";
+
   return (
-    <Alert
-      status="success"
-      variant="subtle"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      textAlign="center"
-    >
-      <AlertIcon boxSize="30px" mr={0} />
-      <AlertTitle fontSize="md">{props.message}</AlertTitle>
+    <Alert status={props.message ? "success" : "error"} variant="left-accent">
+      <AlertIcon boxSize="20px" />
+      {alertMessage}
     </Alert>
   );
 }

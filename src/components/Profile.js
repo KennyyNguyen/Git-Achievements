@@ -22,7 +22,6 @@ export default function Profile() {
   const [show, setShow] = useState("");
   const [gitLabToken, setGitLabToken] = useState("");
   const [gitLabAddress, setGitLabAddress] = useState("");
-  const [connectionStatus, setConnectionStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [testResults, setTestResults] = useState(null);
 
@@ -48,7 +47,7 @@ export default function Profile() {
   const handleTestConnection = useCallback(() => {
     setIsLoading(true);
     browser.runtime
-      .sendMessage({ type: "ping" })
+      .sendMessage({ type: "getLatestDataFromGitLab" })
       .then((result) => {
         setTestResults(result);
         setIsLoading(false);
@@ -59,27 +58,8 @@ export default function Profile() {
       });
   }, []);
 
-  // const handleTestConnection = async () => {
-  //   try {
-  //     if (!gitLabToken || !gitLabAddress) {
-  //       throw new Error(
-  //         "Please provide a personal access token and host address"
-  //       );
-  //     }
-  //     const testApi = api(gitLabAddress, gitLabToken);
-  //     const testFetch = await testApi.Users.current();
-  //     console.log(testFetch.avatar_url);
-  //     if (testFetch.avatar_url === undefined) {
-  //       setConnectionStatus("Connection FAILED");
-  //       alert(connectionStatus);
-  //     }
-  //   } catch (error) {
-  //     setConnectionStatus("Connection error: " + error.message);
-  //   }
-  // };
-
   return (
-    <Flex direction="column">
+    <Flex direction="column" gap="3">
       <Heading>Profile</Heading>
       <FormControl isRequired>
         <FormLabel>GitLab Personal Access Token</FormLabel>
@@ -108,7 +88,7 @@ export default function Profile() {
           />
           <Input
             value={gitLabAddress}
-            placeholder="Ex: https://gitlab.stud.idi.ntnu.no/api/v4/"
+            placeholder="Ex: https://gitlab.stud.idi.ntnu.no"
             onChange={handleGitLabAddressChange}
           />
         </InputGroup>
@@ -120,7 +100,7 @@ export default function Profile() {
       >
         Test connection
       </Button>
-      <>{testResults && <TestAlert message={testResults} />}</>
+      {testResults !== null && <TestAlert message={testResults} />}
     </Flex>
   );
 }

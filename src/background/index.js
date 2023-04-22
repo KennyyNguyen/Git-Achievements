@@ -1,16 +1,22 @@
 import * as browser from "webextension-polyfill";
+import { getLatestDataFromGitLab } from "./endpoints/getLatestDataFromGitLab";
 
 console.log("background script loaded");
-
-// const handleMessage = (message) => {
-//   if (message.type === "getLatestDataFromGitLab") {
-//     return Promise.resolve(true);
-//   }
-//   console.log("pong");
-// };
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.type === "ping") {
     return Promise.resolve("pong");
+  }
+
+  if (message.type === "getLatestDataFromGitLab") {
+    return new Promise(async (resolve) => {
+      try {
+        await getLatestDataFromGitLab();
+        resolve(true);
+      } catch (error) {
+        console.log(error.message);
+        resolve(false);
+      }
+    });
   }
 });
