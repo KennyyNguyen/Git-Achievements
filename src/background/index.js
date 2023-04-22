@@ -1,5 +1,5 @@
 import * as browser from "webextension-polyfill";
-import { getLatestDataFromGitLab } from "./endpoints/getLatestDataFromGitLab";
+import { getUserData } from "./endpoints/getUserData";
 
 console.log("background script loaded");
 
@@ -8,10 +8,10 @@ browser.runtime.onMessage.addListener((message) => {
     return Promise.resolve("pong");
   }
 
-  if (message.type === "getLatestDataFromGitLab") {
+  if (message.type === "getUserData") {
     return new Promise(async (resolve) => {
       try {
-        await getLatestDataFromGitLab();
+        await getUserData();
         resolve(true);
       } catch (error) {
         console.log(error.message);

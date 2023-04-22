@@ -2,7 +2,7 @@ import * as browser from "webextension-polyfill";
 import { getSettings } from "../../common/getSettings";
 import { initGitlabApi } from "../../common/initGitlabApi";
 
-export const getLatestDataFromGitLab = async () => {
+export const getUserData = async () => {
   console.log("Start fetching data");
 
   const settings = await getSettings();
