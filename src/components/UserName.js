@@ -30,5 +30,5 @@ export default function UserName() {
   if (status.error) {
     return <p>{status.error}</p>;
   }
-  return <Heading>{status.name}</Heading>;
+  return <Heading size="lg">{status.name}</Heading>;
 }

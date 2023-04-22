@@ -35,6 +35,6 @@ export default function UserAvatar() {
     return <p>{status.error}</p>;
   }
   return (
-    <Avatar size="xl" name="User Avatar" bg="gray.500" src={status.avatar} />
+    <Avatar size="lg" name="User Avatar" bg="gray.500" src={status.avatar} />
   );
 }

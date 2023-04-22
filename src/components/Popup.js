@@ -7,16 +7,13 @@ import MainDisplay from "./MainDisplay";
 export default function Popup() {
   return (
     <>
-      <Container>
-        <Flex w="max" h="max">
-          <Flex justify="space-between">
-            <ProfileDisplay />
-            <Divider orientation="vertical" />
-          </Flex>
-          <Flex>
+      <Container maxW="container.xl" p="0">
+        <Flex h="400px">
+          <ProfileDisplay />
+          <Divider orientation="vertical" />
+          <Flex flex={1}>
             <Tabs
-              w="sm"
-              h="sm"
+              w="400px"
               isFitted
               variant="line"
               display="flex"
