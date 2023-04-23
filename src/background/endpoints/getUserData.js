@@ -11,10 +11,17 @@ export const getUserData = async () => {
 
   const userMailRequest = currentUserData.email;
   const userIdRequest = currentUserData.id;
+  const userAvatarRequest = currentUserData.avatar_url;
+  const userNameRequest = currentUserData.name;
 
-  const [mail, id] = await Promise.all([userMailRequest, userIdRequest]);
+  const [mail, id, avatar, name] = await Promise.all([
+    userMailRequest,
+    userIdRequest,
+    userAvatarRequest,
+    userNameRequest,
+  ]);
 
-  await browser.storage.local.set({ mail, id });
+  await browser.storage.local.set({ mail, id, avatar, name });
 
   return console.log("API Fetched successfully!");
 };
