@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Wrap, WrapItem } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateAchievement from "./CreateAchievement";
 import supabase from "../common/supabaseClient";
@@ -27,19 +27,14 @@ export default function Achievements() {
   return (
     <Flex direction="column">
       <ProjectDropdownMenu />
-      <Flex>
-        {fetchError && <p>{fetchError}</p>}
-        {achievements && (
-          <Box>
-            {achievements.map((achievement) => (
-              <AchievementBadge
-                key={achievement.id}
-                achievement={achievement}
-              />
-            ))}
-          </Box>
-        )}
-      </Flex>
+      {fetchError && <p>{fetchError}</p>}
+      {achievements && (
+        <Wrap spacing="5%" justify="center" py={4}>
+          {achievements.map((achievement) => (
+            <AchievementBadge key={achievement.id} achievement={achievement} />
+          ))}
+        </Wrap>
+      )}
       <Flex justifyContent="space-between">
         <CreateAchievement />
         <p>Pagination</p>

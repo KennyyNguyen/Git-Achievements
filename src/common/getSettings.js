@@ -5,7 +5,6 @@ export const getSettings = async () => {
     "gitLabToken",
     "gitLabAddress",
   ]);
-  console.log(settings);
 
   return {
     token: settings.gitLabToken,
