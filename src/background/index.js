@@ -22,13 +22,13 @@ browser.runtime.onMessage.addListener((message) => {
   }
 
   if (message.type === "getProjectData") {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
       try {
         const projectData = await getProjectData();
         resolve(projectData);
       } catch (error) {
         console.log(error.message);
-        resolve(false);
+        reject(error);
       }
     });
   }
