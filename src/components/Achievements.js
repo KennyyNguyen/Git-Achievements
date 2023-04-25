@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import { Flex, Wrap } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateAchievement from "./CreateAchievement";
 import supabase from "../common/supabaseClient";
