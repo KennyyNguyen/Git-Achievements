@@ -9,7 +9,9 @@ export default function ProfileDisplay() {
       <UserName />
       <UserAvatar />
       <Text size="md">Recent achievements</Text>
-      <Flex alignItems="center">Display of atleast three achievements!</Flex>
+      <Flex alignItems="center">
+        Three achievements that changes when changing repository
+      </Flex>
     </Flex>
   );
 }

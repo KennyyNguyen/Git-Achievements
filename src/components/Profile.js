@@ -13,7 +13,6 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { RiKey2Fill, RiGitlabFill } from "react-icons/ri";
-//import { api } from "../common/initGitlabApi";
 import { updateSetting } from "../common/updateSetting";
 import TestAlert from "./TestAlert";
 import { getSettings } from "../common/getSettings";
@@ -47,7 +46,7 @@ export default function Profile() {
   const handleTestConnection = useCallback(() => {
     setIsLoading(true);
     browser.runtime
-      .sendMessage({ type: "getLatestDataFromGitLab" })
+      .sendMessage({ type: "getUserData" })
       .then((result) => {
         setTestResults(result);
         setIsLoading(false);

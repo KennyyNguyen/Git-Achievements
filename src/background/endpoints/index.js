@@ -1,1 +1,1 @@
-export * from "./getLatestDataFromGitLab";
+export * from "./getUserData";

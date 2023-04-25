@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
-import { getSettings } from "../common/getSettings";
-import { initGitlabApi } from "../common/initGitlabApi";
+import Browser from "webextension-polyfill";
 
 export default function UserAvatar() {
   const [status, setStatus] = useState({
@@ -13,16 +12,22 @@ export default function UserAvatar() {
   useEffect(() => {
     async function fetchUserAvatar() {
       try {
-        const settings = await getSettings();
-        const gitlabApi = initGitlabApi(settings);
-        const userData = await gitlabApi.Users.current();
-        setStatus({
-          isLoading: false,
-          error: null,
-          avatar: userData.avatar_url,
-        });
+        const avatar = await Browser.storage.local.get("avatar");
+        if (avatar.avatar) {
+          setStatus({
+            isLoading: false,
+            error: null,
+            avatar: avatar.avatar,
+          });
+        } else {
+          setStatus({
+            isLoading: false,
+            error: "Failed to fetch data",
+            avatar: "",
+          });
+        }
       } catch (error) {
-        setStatus({ isLoading: false, error: error.message, name: "" });
+        setStatus({ isLoading: false, error: error.message, avatar: "" });
       }
     }
     fetchUserAvatar();

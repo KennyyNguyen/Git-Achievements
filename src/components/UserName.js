@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Heading, Spinner } from "@chakra-ui/react";
-import { getSettings } from "../common/getSettings";
-import { initGitlabApi } from "../common/initGitlabApi";
+import Browser from "webextension-polyfill";
 
 export default function UserName() {
   const [status, setStatus] = useState({
@@ -13,10 +12,20 @@ export default function UserName() {
   useEffect(() => {
     async function fetchUserName() {
       try {
-        const settings = await getSettings();
-        const gitlabApi = initGitlabApi(settings);
-        const userData = await gitlabApi.Users.current();
-        setStatus({ isLoading: false, error: null, name: userData.name });
+        const name = await Browser.storage.local.get("name");
+        if (name.name) {
+          setStatus({
+            isLoading: false,
+            error: null,
+            name: name.name,
+          });
+        } else {
+          setStatus({
+            isLoading: false,
+            error: "Failed to fetch data",
+            name: "",
+          });
+        }
       } catch (error) {
         setStatus({ isLoading: false, error: error.message, name: "" });
       }
