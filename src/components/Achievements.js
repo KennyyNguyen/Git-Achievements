@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Wrap } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
-import CreateAchievement from "./CreateAchievement";
+import CreateAchievementModal from "./CreateAchievementModal";
 import supabase from "../common/supabaseClient";
 import AchievementBadge from "./achievementBadge";
 
@@ -36,7 +36,7 @@ export default function Achievements() {
         </Wrap>
       )}
       <Flex justifyContent="space-between">
-        <CreateAchievement />
+        <CreateAchievementModal />
         <p>Pagination</p>
       </Flex>
     </Flex>
