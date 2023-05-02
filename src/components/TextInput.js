@@ -1,5 +1,5 @@
 import React from "react";
-import { useField } from "formik";
+import { useField, Field } from "formik";
 import {
   FormControl,
   FormLabel,
@@ -12,10 +12,10 @@ export default function TextInput({ label, ...props }) {
   const isError = meta.touched && meta.error;
 
   return (
-    <FormControl isInvalid={isError}>
-      <FormLabel htmlFor={props.id || props.name}>{label}</FormLabel>
-      <Input {...field} {...props} className="text-input" />
-      {isError && <FormErrorMessage>{meta.error}</FormErrorMessage>}
+    <FormControl isInvalid={isError} isRequired>
+      <FormLabel>{label}</FormLabel>
+      <Input as={Field} {...field} {...props} />
+      <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );
 }
