@@ -14,6 +14,7 @@ import {
 import { Formik, Form } from "formik";
 import TextInput from "./TextInput";
 import * as Yup from "yup";
+import supabase from "../common/supabaseClient";
 
 export default function CreateAchievementModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,9 +33,20 @@ export default function CreateAchievementModal() {
     <Formik
       initialValues={{ code: "", name: "", description: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {
+      onSubmit={async (values, actions) => {
         console.log(values);
-        actions.resetForm();
+        const { data, error } = await supabase
+          .from("achievement_sets")
+          .insert(values)
+          .select();
+        if (error) {
+          console.log(error);
+        }
+        if (data) {
+          console.log("This is the data inserted in the database:", data);
+          console.log("This is the id of the inserted object:", data[0].id);
+          actions.resetForm();
+        }
       }}
     >
       {(props) => (
@@ -70,7 +82,7 @@ export default function CreateAchievementModal() {
                     />
                   </VStack>
                   <ModalFooter>
-                    <Button type="submit" mr="20px" onClick={onClose}>
+                    <Button type="submit" mr="20px">
                       Create
                     </Button>
                     <Button onClick={onClose}>Cancel</Button>
