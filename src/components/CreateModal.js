@@ -48,8 +48,10 @@ export default function CreateModal() {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button type="submit" mr="20px" form="achievementForm">
+            <Button mr="20px" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit" form="achievementForm">
               Create
             </Button>
           </ModalFooter>
