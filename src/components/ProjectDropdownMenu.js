@@ -11,9 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-export default function ProjectDropdownMenu() {
+export default function ProjectDropdownMenu({selectedProject, setSelectedProject}) {
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

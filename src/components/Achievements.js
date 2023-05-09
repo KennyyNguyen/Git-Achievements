@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Flex, Wrap, Button } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateModal from "./CreateModal";
+import AddModal from "./AddModal";
 import supabase from "../common/supabaseClient";
 import AchievementBadge from "./achievementBadge";
 
 export default function Achievements() {
   const [fetchError, setFetchError] = useState(null);
   const [achievements, setAchievements] = useState(null);
+  const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
     async function fetchAchievements() {
@@ -26,7 +28,10 @@ export default function Achievements() {
 
   return (
     <Flex direction="column">
-      <ProjectDropdownMenu />
+      <ProjectDropdownMenu
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+      />
       {fetchError && <p>{fetchError}</p>}
       {achievements && (
         <Wrap spacing="5%" justify="center" py={4}>
@@ -41,7 +46,7 @@ export default function Achievements() {
       <p>Pagination</p>
       <Flex justifyContent="space-around">
         <CreateModal />
-        <Button>Add</Button>
+        <AddModal selectedProject={selectedProject} />
       </Flex>
     </Flex>
   );
