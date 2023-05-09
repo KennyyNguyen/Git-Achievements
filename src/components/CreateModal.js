@@ -51,7 +51,7 @@ export default function CreateModal() {
             <Button mr="20px" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" form="achievementForm">
+            <Button colorScheme="blue" type="submit" form="achievementForm">
               Create
             </Button>
           </ModalFooter>
