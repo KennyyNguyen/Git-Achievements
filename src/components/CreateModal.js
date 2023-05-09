@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -13,9 +13,11 @@ import {
 } from "@chakra-ui/react";
 import CreateFormDropdown from "./CreateFormDropdown";
 import CreateAchievementSetForm from "./CreateAchievementSetForm";
+import CreateAchievementForm from "./CreateAchievementForm";
 
 export default function CreateModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedForm, setSelectedForm] = useState("Achievement Set");
 
   return (
     <>
@@ -29,17 +31,24 @@ export default function CreateModal() {
         <ModalOverlay backdropFilter="blur(10px)" />
         <ModalContent>
           <ModalHeader>
-            <Flex>
-              Create an
-              <CreateFormDropdown />
+            <Flex alignItems="center">
+              Create an&nbsp;
+              <CreateFormDropdown
+                selectedForm={selectedForm}
+                setSelectedForm={setSelectedForm}
+              />
             </Flex>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <CreateAchievementSetForm />
+            {selectedForm === "Achievement Set" ? (
+              <CreateAchievementSetForm />
+            ) : (
+              <CreateAchievementForm />
+            )}
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" mr="20px" form="achievementSetForm">
+            <Button type="submit" mr="20px" form="achievementForm">
               Create
             </Button>
             <Button onClick={onClose}>Cancel</Button>

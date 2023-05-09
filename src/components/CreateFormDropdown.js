@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Menu,
   MenuButton,
@@ -9,17 +9,23 @@ import {
 } from "@chakra-ui/react";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-export default function CreateFormDropdown() {
-  const [selectedForm, setSelectedForm] = useState(null);
+export default function CreateFormDropdown({ selectedForm, setSelectedForm }) {
+  const handleMenuItemClick = (form) => {
+    setSelectedForm(form);
+  };
 
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<Icon as={RiArrowDownSLine} />}>
-        Achievement
+        {selectedForm}
       </MenuButton>
       <MenuList>
-        <MenuItem>Achievement</MenuItem>
-        <MenuItem>Achievement set</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick("Achievement Set")}>
+          Achievement Set
+        </MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick("Achievement")}>
+          Achievement
+        </MenuItem>
       </MenuList>
     </Menu>
   );
