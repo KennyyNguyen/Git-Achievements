@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "./TextInput";
 import { updateSetting } from "../common/updateSetting";
-import Browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
+import supabase from "../common/supabaseClient";
 
 export default function AddAchievementSetForm({ selectedProject }) {
   const validationSchema = Yup.object({
@@ -19,14 +20,29 @@ export default function AddAchievementSetForm({ selectedProject }) {
       initialValues={{ achievement_set_id: "" }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
+        const { data, error } = await supabase
+          .from("achievement_sets")
+          .select("achievement_set_id")
+          .eq("achievement_set_id", values.achievement_set_id)
+          .single();
+
+        if (error || !data) {
+          actions.setFieldError(
+            "achievement_set_id",
+            "The entered ID does not exist"
+          );
+          return;
+        }
+
         const achievementSetRepositoryMapping = {
           [selectedProject.name]: values.achievement_set_id,
         };
         await updateSetting(achievementSetRepositoryMapping);
-        const object = await Browser.storage.local.get({
+        const object = await browser.storage.local.get({
           achievementSetRepositoryMapping,
         });
         console.log(object);
+        actions.resetForm();
       }}
     >
       {(props) => (
