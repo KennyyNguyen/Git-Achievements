@@ -55,7 +55,7 @@ export default function AddAchievementSetForm({ selectedProject }) {
           if (!response.valid) {
             actions.setFieldError(
               "achievement_set_id",
-              "The entered ID does not exist"
+              "The entered ID does not exist. Please enter a valid ID."
             );
             return;
           }
