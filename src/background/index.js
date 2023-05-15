@@ -29,7 +29,7 @@ browser.runtime.onMessage.addListener((message) => {
         resolve(projectData);
       } catch (error) {
         console.log(error.message);
-        resolve(error);
+        reject(error);
       }
     });
   }
