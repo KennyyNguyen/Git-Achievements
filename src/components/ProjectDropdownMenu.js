@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 import {
   Button,
   Menu,
@@ -11,7 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-export default function ProjectDropdownMenu({selectedProject, setSelectedProject}) {
+export default function ProjectDropdownMenu({
+  selectedProject,
+  setSelectedProject,
+}) {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,10 +30,16 @@ export default function ProjectDropdownMenu({selectedProject, setSelectedProject
         console.error(error);
         setIsLoading(false);
       });
+
+    browser.storage.local.get("selectedProject").then(({ selectedProject }) => {
+      if (selectedProject) setSelectedProject(selectedProject);
+    });
   }, []);
 
   const handleProjectSelect = (project) => {
     setSelectedProject(project);
+
+    browser.storage.local.set({ selectedProject: project });
   };
 
   return (
