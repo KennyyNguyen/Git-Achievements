@@ -1,6 +1,7 @@
 import * as browser from "webextension-polyfill";
 import { getUserData } from "./endpoints/getUserData";
 import { getProjectData } from "./endpoints/getProjectData";
+import supabase from "../common/supabaseClient";
 
 console.log("background script loaded");
 
@@ -28,7 +29,28 @@ browser.runtime.onMessage.addListener((message) => {
         resolve(projectData);
       } catch (error) {
         console.log(error.message);
-        reject(error);
+        resolve(error);
+      }
+    });
+  }
+
+  if (message.type === "validateAchievementSetId") {
+    return new Promise(async (resolve) => {
+      try {
+        const { data, error } = await supabase
+          .from("achievement_sets")
+          .select("achievement_set_id")
+          .eq("achievement_set_id", message.achievement_set_id)
+          .single();
+
+        if (error || !data) {
+          resolve({ valid: false });
+        } else {
+          resolve({ valid: true });
+        }
+      } catch (error) {
+        console.error("Error while validating Achievement Set ID: ", error);
+        resolve({ valid: false });
       }
     });
   }

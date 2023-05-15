@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "./TextInput";
 import { updateSetting } from "../common/updateSetting";
 import browser from "webextension-polyfill";
-import supabase from "../common/supabaseClient";
+import { useToast } from "@chakra-ui/react";
 
 export default function AddAchievementSetForm({ selectedProject }) {
+  const [storeStatus, setStoreStatus] = useState();
+
   const validationSchema = Yup.object({
     achievement_set_id: Yup.number()
       .min(1, "Must be a positive number")
@@ -15,34 +17,59 @@ export default function AddAchievementSetForm({ selectedProject }) {
       .required("ID is required"),
   });
 
+  const toast = useToast();
+
+  useEffect(() => {
+    if (storeStatus === true) {
+      toast({
+        title: "Success!",
+        description: `You have added an achievement set to ${selectedProject.name}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setStoreStatus(null);
+    } else if (storeStatus === false) {
+      toast({
+        title: "Error!",
+        description: "An error occurred while submitting the form.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      setStoreStatus(null);
+    }
+  }, [storeStatus, toast, selectedProject.name]);
+
   return (
     <Formik
       initialValues={{ achievement_set_id: "" }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        const { data, error } = await supabase
-          .from("achievement_sets")
-          .select("achievement_set_id")
-          .eq("achievement_set_id", values.achievement_set_id)
-          .single();
+        try {
+          const response = await browser.runtime.sendMessage({
+            type: "validateAchievementSetId",
+            achievement_set_id: values.achievement_set_id,
+          });
 
-        if (error || !data) {
-          actions.setFieldError(
-            "achievement_set_id",
-            "The entered ID does not exist"
-          );
-          return;
+          if (!response.valid) {
+            actions.setFieldError(
+              "achievement_set_id",
+              "The entered ID does not exist"
+            );
+            return;
+          }
+
+          const achievementSetRepositoryMapping = {
+            [selectedProject.name]: values.achievement_set_id,
+          };
+          await updateSetting(achievementSetRepositoryMapping);
+          setStoreStatus(true);
+          actions.resetForm();
+        } catch (error) {
+          console.error(error);
+          setStoreStatus(false);
         }
-
-        const achievementSetRepositoryMapping = {
-          [selectedProject.name]: values.achievement_set_id,
-        };
-        await updateSetting(achievementSetRepositoryMapping);
-        const object = await browser.storage.local.get({
-          achievementSetRepositoryMapping,
-        });
-        console.log(object);
-        actions.resetForm();
       }}
     >
       {(props) => (
