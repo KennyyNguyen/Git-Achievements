@@ -3,24 +3,25 @@ import { Flex, Wrap, Button } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateModal from "./CreateModal";
 import AddModal from "./AddModal";
-import supabase from "../common/supabaseClient";
 import AchievementBadge from "./achievementBadge";
+import browser from "webextension-polyfill";
 
 export default function Achievements() {
   const [fetchError, setFetchError] = useState(null);
-  const [achievements, setAchievements] = useState(null);
+  const [achievements, setAchievements] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
     async function fetchAchievements() {
-      const { data, error } = await supabase.from("achievements").select();
-      if (error) {
-        setFetchError("Could not fetch the achivements");
-        setAchievements(null);
-      }
-      if (data) {
-        setAchievements(data);
+      try {
+        const results = await browser.runtime.sendMessage({
+          type: "getAchievements",
+        });
+        setAchievements(results);
         setFetchError(null);
+      } catch {
+        setFetchError("Could not fetch the achievements");
+        setAchievements(null);
       }
     }
     fetchAchievements();
