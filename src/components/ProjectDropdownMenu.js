@@ -28,7 +28,7 @@ export default function ProjectDropdownMenu({
       })
       .catch((error) => {
         console.error(error);
-        setIsLoading(false);
+        setIsLoading(true);
       });
 
     browser.storage.local.get("selectedProject").then(({ selectedProject }) => {
