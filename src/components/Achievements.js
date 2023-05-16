@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Wrap, Button } from "@chakra-ui/react";
+import { Flex, Wrap } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateModal from "./CreateModal";
 import AddModal from "./AddModal";
@@ -12,7 +12,7 @@ export default function Achievements() {
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
-    async function fetchAchievements() {
+    async function getAchievements() {
       try {
         const results = await browser.runtime.sendMessage({
           type: "getAchievements",
@@ -24,7 +24,7 @@ export default function Achievements() {
         setAchievements(null);
       }
     }
-    fetchAchievements();
+    getAchievements();
   }, []);
 
   return (
