@@ -58,7 +58,10 @@ browser.runtime.onMessage.addListener((message) => {
   if (message.type === "getAchievements") {
     return new Promise(async (resolve, reject) => {
       try {
-        const { data, error } = await supabase.from("achievements").select();
+        const { data, error } = await supabase
+          .from("achievements")
+          .select()
+          .eq("achievement_set_id", message.projectId);
         if (error) throw error;
         resolve(data);
       } catch (error) {
