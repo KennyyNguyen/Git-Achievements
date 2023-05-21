@@ -12,27 +12,41 @@ export default function Achievements() {
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
-    async function getAchievements() {
-      try {
-        if (selectedProject) {
-          const projectObject = await browser.storage.local.get(
-            selectedProject.name
-          );
-          const projectId = projectObject[selectedProject.name];
-          const results = await browser.runtime.sendMessage({
-            type: "getAchievements",
-            projectId: projectId,
-          });
-          setAchievements(results);
-          setFetchError(null);
-        }
-      } catch {
-        setFetchError("This repository does not have any achievement sets.");
-        setAchievements(null);
-      }
-    }
     getAchievements();
   }, [selectedProject]);
+
+  useEffect(() => {
+    const handleLocalStorageChange = async (event) => {
+      if (event.key === selectedProject.name) {
+        getAchievements();
+        const updatedProject = await browser.storage.local.get(event.key);
+        setSelectedProject(updatedProject);
+      }
+    };
+    window.addEventListener("storage", handleLocalStorageChange);
+    return () =>
+      window.removeEventListener("storage", handleLocalStorageChange);
+  }, [selectedProject]);
+
+  const getAchievements = async () => {
+    try {
+      if (selectedProject) {
+        const projectObject = await browser.storage.local.get(
+          selectedProject.name
+        );
+        const projectId = projectObject[selectedProject.name];
+        const results = await browser.runtime.sendMessage({
+          type: "getAchievements",
+          projectId: projectId,
+        });
+        setAchievements(results);
+        setFetchError(null);
+      }
+    } catch {
+      setFetchError("This repository does not have any achievement sets.");
+      setAchievements(null);
+    }
+  };
 
   return (
     <Flex direction="column">
