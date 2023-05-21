@@ -1,6 +1,7 @@
 import * as browser from "webextension-polyfill";
 import { getUserData } from "./endpoints/getUserData";
 import { getProjectData } from "./endpoints/getProjectData";
+import supabase from "../common/supabaseClient";
 
 console.log("background script loaded");
 
@@ -26,6 +27,43 @@ browser.runtime.onMessage.addListener((message) => {
       try {
         const projectData = await getProjectData();
         resolve(projectData);
+      } catch (error) {
+        console.log(error.message);
+        reject(error);
+      }
+    });
+  }
+
+  if (message.type === "validateAchievementSetId") {
+    return new Promise(async (resolve) => {
+      try {
+        const { data, error } = await supabase
+          .from("achievement_sets")
+          .select("achievement_set_id")
+          .eq("achievement_set_id", message.achievement_set_id)
+          .single();
+
+        if (error || !data) {
+          resolve({ valid: false });
+        } else {
+          resolve({ valid: true });
+        }
+      } catch (error) {
+        console.error("Error while validating Achievement Set ID: ", error);
+        resolve({ valid: false });
+      }
+    });
+  }
+
+  if (message.type === "getAchievements") {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data, error } = await supabase
+          .from("achievements")
+          .select()
+          .eq("achievement_set_id", message.projectId);
+        if (error) throw error;
+        resolve(data);
       } catch (error) {
         console.log(error.message);
         reject(error);
