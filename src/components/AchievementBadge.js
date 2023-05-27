@@ -32,16 +32,30 @@ export default function AchievementBadge(props) {
       </WrapItem>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(10px)" />
-        <ModalContent flexDirection="column" alignItems="center" mt="1rem">
+        <ModalContent
+          d="flex"
+          justifyContent="center"
+          alignItems="center"
+          mt="2rem"
+        >
           <ModalHeader>{props.achievement.name}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody
+            d="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            textAlign="center"
+          >
             <Avatar size="xl" name={props.achievement.name} />
-            <Text>
+            <Text p={4}>
               Sint pariatur anim id eiusmod ut Lorem anim occaecat. Fugiat velit
               labore reprehenderit dolor.
             </Text>
-            <Progress value={80} />
+            <Box>
+              <Progress value={80} />
+              <Text>Criteria: 8/10</Text>
+            </Box>
           </ModalBody>
           <ModalFooter />
         </ModalContent>
