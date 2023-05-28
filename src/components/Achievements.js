@@ -5,7 +5,6 @@ import CreateModal from "./CreateModal";
 import AddModal from "./AddModal";
 import AchievementBadge from "./achievementBadge";
 import browser from "webextension-polyfill";
-import { Counter } from "./Counter";
 
 export default function Achievements() {
   const [fetchError, setFetchError] = useState(null);
@@ -55,7 +54,6 @@ export default function Achievements() {
         selectedProject={selectedProject}
         setSelectedProject={setSelectedProject}
       />
-      <Counter />
       {fetchError && <Text color="tomato">{fetchError}</Text>}
       {achievements && (
         <Wrap spacing="5%" justify="center" py={4}>
