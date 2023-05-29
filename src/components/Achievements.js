@@ -3,7 +3,7 @@ import { Flex, Wrap, Text } from "@chakra-ui/react";
 import ProjectDropdownMenu from "./ProjectDropdownMenu";
 import CreateModal from "./CreateModal";
 import AddModal from "./AddModal";
-import AchievementBadge from "./achievementBadge";
+import AchievementBadgeModal from "./AchievementBadgeModal";
 import browser from "webextension-polyfill";
 
 export default function Achievements() {
@@ -12,13 +12,13 @@ export default function Achievements() {
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
-    getAchievements();
+    getAchievementsFromDatabase();
   }, [selectedProject]);
 
   useEffect(() => {
     const handleLocalStorageChange = async (event) => {
       if (event.key === selectedProject.name) {
-        getAchievements();
+        getAchievementsFromDatabase();
         const updatedProject = await browser.storage.local.get(event.key);
         setSelectedProject(updatedProject);
       }
@@ -28,12 +28,13 @@ export default function Achievements() {
       window.removeEventListener("storage", handleLocalStorageChange);
   }, [selectedProject]);
 
-  const getAchievements = async () => {
+  const getAchievementsFromDatabase = async () => {
     try {
       if (selectedProject) {
         const projectObject = await browser.storage.local.get(
           selectedProject.name
         );
+
         const projectId = projectObject[selectedProject.name];
         const results = await browser.runtime.sendMessage({
           type: "getAchievements",
@@ -58,7 +59,7 @@ export default function Achievements() {
       {achievements && (
         <Wrap spacing="5%" justify="center" py={4}>
           {achievements.map((achievement) => (
-            <AchievementBadge
+            <AchievementBadgeModal
               key={achievement.achievement_id}
               achievement={achievement}
             />
