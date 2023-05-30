@@ -12,12 +12,12 @@ export default function UserAvatar() {
   useEffect(() => {
     async function fetchUserAvatar() {
       try {
-        const avatar = await Browser.storage.local.get("avatar");
-        if (avatar.avatar) {
+        const avatar = await Browser.storage.local.get("userAvatarUrl");
+        if (avatar.userAvatarUrl) {
           setStatus({
             isLoading: false,
             error: null,
-            avatar: avatar.avatar,
+            avatar: avatar.userAvatarUrl,
           });
         } else {
           setStatus({

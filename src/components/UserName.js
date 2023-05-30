@@ -12,12 +12,12 @@ export default function UserName() {
   useEffect(() => {
     async function fetchUserName() {
       try {
-        const name = await Browser.storage.local.get("name");
-        if (name.name) {
+        const name = await Browser.storage.local.get("userName");
+        if (name.userName) {
           setStatus({
             isLoading: false,
             error: null,
-            name: name.name,
+            name: name.userName,
           });
         } else {
           setStatus({
