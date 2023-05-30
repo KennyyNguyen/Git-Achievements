@@ -3,8 +3,6 @@ import { getSettings } from "../../common/getSettings";
 import { initGitlabApi } from "../../common/initGitlabApi";
 
 export const getUserData = async () => {
-  console.log("Start fetching user data");
-
   const settings = await getSettings();
   const gitLabApi = initGitlabApi(settings);
   const currentUserData = await gitLabApi.Users.current();
