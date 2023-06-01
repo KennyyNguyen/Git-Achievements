@@ -12,6 +12,7 @@ export default function Achievements() {
   const [achievements, setAchievements] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
   const [commits, setCommits] = useState([]);
+  const [commitsPerDay, setCommitsPerDay] = useState(0);
 
   useEffect(() => {
     getAchievementsFromDatabase();
@@ -65,8 +66,8 @@ export default function Achievements() {
         author: userMailObject.userMail,
       });
       setCommits(projectCommits);
-      const commitsPerDay = calculateCommitsPerDay(projectCommits);
-      console.log(commitsPerDay);
+      const commitsPerDayCalc = calculateCommitsPerDay(projectCommits);
+      setCommitsPerDay(commitsPerDayCalc);
     } catch (error) {
       setFetchError("Failed to fetch project commits: " + error);
     }
@@ -85,6 +86,7 @@ export default function Achievements() {
             <AchievementBadgeModal
               key={achievement.achievement_id}
               achievement={achievement}
+              commitsPerDay={commitsPerDay}
             />
           ))}
         </Wrap>

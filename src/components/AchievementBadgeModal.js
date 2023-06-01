@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -16,9 +16,21 @@ import {
   AvatarBadge,
 } from "@chakra-ui/react";
 
-export default function AchievementBadgeModal(props) {
+export default function AchievementBadgeModal({ achievement, commitsPerDay }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [achieved, setAchieved] = useState(false);
+  const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    let todayCommits = commitsPerDay[today] || 0;
+    if (
+      achievement.criteria.commits &&
+      todayCommits >= achievement.criteria.commits
+    ) {
+      setAchieved(true);
+      console.log(todayCommits);
+    }
+  }, [achievement, commitsPerDay]);
 
   return (
     <>
@@ -28,14 +40,14 @@ export default function AchievementBadgeModal(props) {
         flexDirection="column"
         alignItems="center"
       >
-        <Avatar name={props.achievement.name} as="button" onClick={onOpen}>
+        <Avatar name={achievement.name} as="button" onClick={onOpen}>
           <AvatarBadge
             boxSize="1.25em"
             bg={achieved ? "green.500" : "red.500"}
           />
         </Avatar>
         <Text fontSize="sm" as="button" onClick={onOpen}>
-          {props.achievement.name}
+          {achievement.name}
         </Text>
       </WrapItem>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -46,7 +58,7 @@ export default function AchievementBadgeModal(props) {
           alignItems="center"
           mt="2rem"
         >
-          <ModalHeader>{props.achievement.name}</ModalHeader>
+          <ModalHeader>{achievement.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody
             d="flex"
@@ -56,19 +68,19 @@ export default function AchievementBadgeModal(props) {
             textAlign="center"
             w="100%"
           >
-            <Avatar size="xl" name={props.achievement.name} />
-            <Text p={4}>{props.achievement.description}</Text>
+            <Avatar size="xl" name={achievement.name} />
+            <Text p={4}>{achievement.description}</Text>
             <Box>
               <Progress
-                value={(100 / Object.values(props.achievement.criteria)[0]) * 2}
+                value={
+                  (100 * (commitsPerDay[today] || 0)) /
+                  Object.values(achievement.criteria)[0]
+                }
               />
               <Text>
-                {`Et tall vi regner ut / ${
-                  Object.values(props.achievement.criteria)[0]
-                } ${Object.keys(props.achievement.criteria)[0].replace(
-                  /_/g,
-                  " "
-                )}`}
+                {`${commitsPerDay[today] || 0} / ${
+                  Object.values(achievement.criteria)[0]
+                } ${Object.keys(achievement.criteria)[0].replace(/_/g, " ")}`}
               </Text>
             </Box>
           </ModalBody>
