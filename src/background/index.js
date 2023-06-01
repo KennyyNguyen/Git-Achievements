@@ -3,6 +3,7 @@ import { getUserData } from "./endpoints/getUserData";
 import { getProjectData } from "./endpoints/getProjectData";
 import { validateAchievementSetId } from "./endpoints/validateAchievementSetId";
 import { getAchievements } from "./endpoints/getAchievements";
+import { getProjectCommits } from "./endpoints/getProjectCommits";
 
 console.log("background script loaded");
 
@@ -54,6 +55,21 @@ browser.runtime.onMessage.addListener((message) => {
       try {
         const achievements = await getAchievements(message.projectId);
         resolve(achievements);
+      } catch (error) {
+        console.log(error.message);
+        reject(error);
+      }
+    });
+  }
+
+  if (message.type === "getProjectCommits") {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const projectCommits = await getProjectCommits(
+          message.projectId,
+          message.author
+        );
+        resolve(projectCommits);
       } catch (error) {
         console.log(error.message);
         reject(error);
