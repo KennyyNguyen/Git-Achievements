@@ -60,10 +60,10 @@ export default function AddAchievementSetForm({ selectedProject }) {
             return;
           }
 
-          const achievementSetRepositoryMapping = {
+          const repositoryAchievementSetMapping = {
             [selectedProject.name]: values.achievement_set_id,
           };
-          await updateSetting(achievementSetRepositoryMapping);
+          await updateSetting(repositoryAchievementSetMapping);
           setStoreStatus(true);
           actions.resetForm();
         } catch (error) {
